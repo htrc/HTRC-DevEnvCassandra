@@ -1,7 +1,7 @@
 
 # HTRC-DevEnvCassandra
 
-[Vagrant](https://www.vagrantup.com) based development environment for HTRC.
+[Vagrant](https://www.vagrantup.com) based Cassandra development environment for HTRC.
 
 # Prerequisites
 
