@@ -35,10 +35,14 @@ $ vagrant plugin install vagrant-triggers
 Run ```vagrant up``` to create an instance of HTRC development environment locally and use ```vagrant ssh``` to log into the VM.
 
 ## Install python2
+```
 sudo /devenv_scripts/py2.sh
-
+```
 ## Install python3
+```
 sudo /devenv_scripts/py2.sh
-
+```
 ## Install cassandra
+```
 sudo /devenv_scripts/cassandra.sh
+```
