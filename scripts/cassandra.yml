@@ -1,0 +1,75 @@
+
+---
+- hosts: localhost
+  tasks:
+    # deal with prereqs for basic system.
+    - name: update all pkgs
+      become: yes
+      yum: name='*' state='latest'
+    - name: install required pkgs
+      become: yes
+      yum: name={{ item }} state=present
+      with_items:
+        - java
+        - emacs
+        - git
+        - yum-utils
+        - wget
+        - zlib-devel
+        - bzip2-devel
+        - openssl-devel
+        - ncurses-devel
+        - sqlite-devel
+        - mlocate
+    - name: update locate db
+      become: yes
+      shell: "updatedb"
+
+    # python2 stuff
+    - name: install python 2 packages
+      become: yes
+      yum: name={{ item }} state=present
+      with_items:
+        - python-setuptools
+        - python-devel
+      
+    - name: install pip
+      become: yes
+      shell: "easy_install pip"
+      
+    - name: Cassandra python driver
+      become: yes
+      shell: 'pip install cassandra-driver'
+
+    # python 3 stuff
+    - name: build/install python 3
+      become: yes
+      command: chdir=/devenv_downloads tar xzvf Python-3.5.3.tgz
+      command: chdir=/devenv_downloads/Python-3.5.3 ./configure 
+      command: chdir=/devenv_downloads/Python-3.5.3 make
+      command: chdir=/devenv_downloads/Python-3.5.3 make install
+      
+    - name: install python3 pip
+      become: yes
+      shell: /usr/local/bin/python3 /devenv_downloads/get-pip.py
+      shell: /usr/local/bin/python3 -m pip install cassandra-driver
+
+    # setup datastax cassandra repo and install it.
+    - name: setup cassandra repo 
+      become: yes
+      command: cp /devenv_configurations/datastax.repo /etc/yum.repos.d/datastax.repo
+    - name: install cassandra pkg of dsc20
+      yum: name=dsc20 state=present
+    
+    # - name: cassandra service runlevels
+    #   become: yes
+    #   service:
+    #     name: cassandra
+    #     enabled: yes
+    # - name: cassandra started
+    #   become: yes
+    #   service:
+    #     name: cassandra
+    #     state: started
+
+
