@@ -61,15 +61,17 @@
     - name: install cassandra pkg of dsc20
       yum: name=dsc20 state=present
     
-    # - name: cassandra service runlevels
-    #   become: yes
-    #   service:
-    #     name: cassandra
-    #     enabled: yes
-    # - name: cassandra started
-    #   become: yes
-    #   service:
-    #     name: cassandra
-    #     state: started
+    - name: cassandra service runlevels
+      become: yes
+      service:
+        name: cassandra
+        enabled: yes
+        
+    - name: cassandra started
+      become: yes
+      service:
+        name: cassandra
+        state: started
+        
 
 
