@@ -16,7 +16,7 @@ DATASTAX_REPO = 'datastax.repo'
 PY3_URL       = 'https://www.python.org/ftp/python/3.5.3/Python-3.5.3.tgz'
 PIP_URL       = 'https://bootstrap.pypa.io/get-pip.py'
 
-PRIVATE_IP    = '192.168.100.100'
+PRIVATE_IP    = '192.168.100.102'
 
 Vagrant.configure("2") do |config|
   config.vm.box = "centos/7"
@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
 
 
   config.vm.network "private_network", ip: PRIVATE_IP
-  config.vm.hostname = "devenv-is"
+  config.vm.hostname = "devenv-cass"
   config.hostsupdater.aliases = ["devenv-cassandra"]
 
   config.vm.synced_folder SCRIPTS_DIR, "/devenv_scripts"
@@ -43,7 +43,14 @@ Vagrant.configure("2") do |config|
   download_source(PY3_ZIP, PY3_URL)
   download_source(GET_PIP, PIP_URL)
 
-  config.vm.provision :shell, :path => "scripts/install-prereqs.sh"
+  config.vm.provision "shell", inline: <<-SHELL
+      sudo yum -y install openssl-devel
+      sudo yum -y install python-setuptools
+      sudo yum -y install python-devel
+      sudo easy_install pip
+      sudo pip install ansible
+      ansible-playbook /devenv_scripts/cassandra.yml
+  SHELL
 end
 
 
