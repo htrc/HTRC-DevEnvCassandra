@@ -55,7 +55,8 @@
     - name: install python3 pip
       become: yes
       shell: /usr/local/bin/python3 /devenv_downloads/get-pip.py
-    - name install cassandra driver
+      
+    - name: install cassandra driver
       become: yes
       shell: /usr/local/bin/python3 -m pip install cassandra-driver
 
