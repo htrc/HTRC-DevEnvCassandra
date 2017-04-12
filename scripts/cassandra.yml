@@ -57,7 +57,7 @@
     # setup datastax cassandra repo and install it.
     - name: setup cassandra repo 
       become: yes
-      command: cp /devenv_configurations/datastax.repo /etc/yum.repos.d/datastax.repo
+      command: cp /devenv_sources/HTRC-DevEnvCassandra/configurations/datastax.repo /etc/yum.repos.d/datastax.repo
     - name: install cassandra pkg of dsc20
       yum: name=dsc20 state=present
     
