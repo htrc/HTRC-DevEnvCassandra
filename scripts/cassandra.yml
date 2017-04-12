@@ -42,16 +42,21 @@
       shell: 'pip install cassandra-driver'
 
     # python 3 stuff
-    - name: build/install python 3
-      become: yes
+    - name: untar python 3
       command: chdir=/devenv_downloads tar xzvf Python-3.5.3.tgz
-      command: chdir=/devenv_downloads/Python-3.5.3 ./configure 
+    - name: configure python 3
+      command: chdir=/devenv_downloads/Python-3.5.3 ./configure
+    - name: make python 3
       command: chdir=/devenv_downloads/Python-3.5.3 make
+    - name: install python 3
+      become: yes
       command: chdir=/devenv_downloads/Python-3.5.3 make install
       
     - name: install python3 pip
       become: yes
       shell: /usr/local/bin/python3 /devenv_downloads/get-pip.py
+    - name install cassandra driver
+      become: yes
       shell: /usr/local/bin/python3 -m pip install cassandra-driver
 
     # setup datastax cassandra repo and install it.
